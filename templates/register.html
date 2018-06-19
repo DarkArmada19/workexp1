@@ -21,14 +21,12 @@
 <a href="/logout" name="logout"class="button">Logout</a>
 {% else %}
 <form action="/createuser" method="POST">
-  <input type="username" name="usernamen" placeholder="Username">
-  <input type="password" name="passwordn" placeholder="Password">
-  <input type="username" name="emailn" placeholder="Email Address">
-  <input type="username" name="firstnamen" placeholder="First Name">
-  <input type="username" name="lastnamen" placeholder="Last Name">
-  <input type="datetime-local" name="datetimeinput">
-  <input type="number" name="activeaccount" placeholder="1">
-  <a href="/createsuccess" name="creationofuser"class="button">Create</a>
+  <input type="text" name="username" placeholder="Username">
+  <input type="password" name="password" placeholder="Password">
+  <input type="text" name="email" placeholder="Email Address">
+  <input type="text" name="firstname" placeholder="First Name">
+  <input type="text" name="lastname" placeholder="Last Name">
+  <input type="submit" class="button">Create</input>
 </form>
 {% endif %}
 {% endblock %}
