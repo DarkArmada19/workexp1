@@ -17,7 +17,7 @@ def home():
  
 @app.route('/login', methods=['POST'])
 def do_admin_login():
-    
+# Read username and password from form parameters.
     username = str(request.form['username'])
     password = str(request.form['password'])
  
