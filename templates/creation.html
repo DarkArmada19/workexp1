@@ -1,0 +1,35 @@
+<!doctype html>
+<title>User Creation</title>
+<style>
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+</style>
+<body>
+{% block body %}
+{% if session['user_id'] %}
+<p>You are still logged in with another account.</p>
+<a href="/logout" name="logout"class="button">Logout</a>
+{% else %}
+<form action="/createuser" method="POST">
+  <input type="username" name="usernamen" placeholder="Username">
+  <input type="password" name="passwordn" placeholder="Password">
+  <input type="username" name="emailn" placeholder="Email Address">
+  <input type="username" name="firstnamen" placeholder="First Name">
+  <input type="username" name="lastnamen" placeholder="Last Name">
+  <input type="datetime-local" name="datetimeinput">
+  <input type="number" name="activeaccount" placeholder="1">
+  <a href="/createsuccess" name="creationofuser"class="button">Create</a>
+</form>
+{% endif %}
+{% endblock %}
+</body>
