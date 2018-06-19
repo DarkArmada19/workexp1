@@ -2,3 +2,5 @@
 EverythingElse/
 
 venv/
+
+templates/web\.html
