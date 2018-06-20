@@ -18,11 +18,36 @@ header {
     margin: 4px 2px;
     cursor: pointer;
 }
+.clicker {
+    background-color: #12FFDB;
+    border: none;
+    color: darkgray;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
 </style>
 </head>
 <body>
     <header>
         <h1>Welcome to Fake Bank Inc.</h1>
     </header>
-    <a href="/register" class="button">Create a User Account</a>               
+    {% block body %}
+    {% if session['user_id'] %}
+        <h2>Good morning, {{ name }}</h2>
+        <p>What would you like to view today?</p>
+        <a href="/transactions" class="button">Transactions</a>
+    {% else %}
+    <form action="/homepage" method="POST">
+        <input type="username" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <input type="submit" value="Log in">
+    </form>
+    <a href="/register" class="button">Create a User Account</a>
+    {% endif %}
+    {% endblock %}           
 </body>

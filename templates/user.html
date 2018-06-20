@@ -27,8 +27,9 @@
   <h1>Hello, anonymous user!</h1>
 {% endif %}
 <body>
-  <a href="/homepage"><input type="submit" value="Home page"></a>
-  <a href="/createuser" class="button">Create a User Account</a> 
+  <a href="/" class="button">Home Page</a>
+  <a href="/register" class="button">Create a User Account</a> 
+  <a href="/logout" class="button">Logout</a>
 </body>
 {% for item in data %}
 <tr>

@@ -1,0 +1,36 @@
+<!doctype html>
+<title>User Creation</title>
+<style>
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+</style>
+<body>
+{% block body %}
+{% if session['user_id'] %}
+<!--- Display transaction history if the user_id equals the same as the ID from before-->
+<p>Current User ID: {{ userida }}</p>
+<p>{{amt}}</p>
+<p>{{date}}</p>
+<p>{{desc}}</p>
+<p>{{posneg}}</p>
+<a href="/logout" class="button">Logout</a>
+{% else %}
+<form action="/transactions" method="POST">
+  <input type="text" name="username" placeholder="Username">
+  <input type="password" name="password" placeholder="Password">
+  <input type="number" name="IDreal" placeholder="0">
+  <input type="submit" class="button">Check</input>
+</form>
+{% endif %}
+{% endblock %}
+</body>
