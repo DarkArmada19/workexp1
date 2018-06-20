@@ -17,27 +17,31 @@ def home():
 def homepage():
     username = str(request.form['username'])
     password = str(request.form['password'])
+    
 
     cnx = mysql.connector.connect(user='root', database='fakebank')
     cursor = cnx.cursor()
 
-    query = ("SELECT ID, user_login, user_pass, user_firstname FROM fb_userlogin WHERE user_pass = \'" + password + "\' AND user_login = \'" + username + "\'")
+    query = ("SELECT ID, user_login, user_pass, user_firstname, user_lastname, user_gender FROM fb_userlogin WHERE user_pass = \'" + password + "\' AND user_login = \'" + username + "\'")
 
     cursor.execute(query)   
     
     for (row) in cursor:
-        session["user_id"]=row[0]
-        print(session.get("user_id"))
-        session["user_logname"]=row[1]
-        print(session.get("user_logname"))
-        session["user_password"]=row[2]
-        print(session.get("user_password"))
-        session["user_1name"]=row[3]
-        print(session.get("user_1name"))
- 
+        session["UID"]=row[0]
+        print(session.get("UID"))
+        session["user_login"]=row[1]
+        print(session.get("user_login"))
+        session["user_pass"]=row[2]
+        print(session.get("user_pass"))
+        session["user_firstname"]=row[3]
+        print(session.get("user_firstname"))
+        session["user_lastname"]=row[4]
+        print(session.get("user_lastname"))
+        session["user_gender"]=row[5]
+
     cursor.close()
     cnx.close()
-    return render_template('homepage.html', userid=session.get("user_id"), name=session.get("user_1name"))
+    return render_template('homepage.html')
 
 @app.route('/login', methods=['POST'])
 def do_admin_login():
@@ -96,17 +100,28 @@ def createuser():
     password = str(request.form['password'])
     email = str(request.form['email'])
     firstname = str(request.form['firstname'])
-    lastname = str(request.form['lastname'])
-   
+    lastname = str(request.form['lastname']) 
+    gender = request.form.get('gender')
+    print(int(gender))
     cnx = mysql.connector.connect(user='root', database='fakebank')
     cursor = cnx.cursor()
-    sql = "INSERT INTO fb_userlogin (user_login, user_pass, user_email, user_firstname, user_lastname) VALUES (%s, %s, %s, %s, %s)"
-    val = (username, password, email, firstname, lastname)
+    sql = "INSERT INTO fb_userlogin (user_login, user_pass, user_email, user_firstname, user_lastname, user_gender) VALUES (%s, %s, %s, %s, %s, %s)"
+    val = (username, password, email, firstname, lastname, gender)
     cursor.execute(sql, val)
     cnx.commit()
+
+    for (row) in cursor:
+        session["user_login"]=row[0]
+        session["user_pass"]=row[1]
+        session["user_email"]=row[2]
+        session["user_firstname"]=row[3]
+        session["user_lastname"]=row[4]
+        session["user_gender"]=row[5]
+
     cursor.close()
     cnx.close()
-    return render_template('success.html')
+    print (gender)
+    return render_template('homepage.html')
 
 @app.route("/success")
 def success():

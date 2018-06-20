@@ -26,14 +26,17 @@ td {
 <!--{% if session['user_id'] %}-->
 <!--- Display transaction history if the user_id equals the same as the ID from before-->
 {% if session.get("user_id") != None %}
-    
+  {% if transactions == None %}
+    <p>There is nothing to display.</p>
+  {% else %}
     <table>
         <thead>
             <tr class="tr">
                 <td>No.</td>
                 <td>Amount</td>
                 <td>Date</td>
-                <td>Desc</td>       
+                <td>Desc</td> 
+                <td>+ or -</td>
             </tr>
         </thead>
         <tbody>
@@ -44,13 +47,12 @@ td {
                 <td>${{ t[1] }}</td>
                 <td>{{ t[2] }}</td>
                 <td>{{ t[3] }}</td>
+                <td>{{ t[4] }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-
-
-    <a href="/homepage" class="button">Back</a>
+    <a href="/" class="button">Back</a>
     <a href="/logout" class="button">Log out</a>
 {% else %}
     <p>Sorry, you are not logged in.</p>

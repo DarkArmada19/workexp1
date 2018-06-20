@@ -16,17 +16,24 @@
 </style>
 <body>
 {% block body %}
-{% if session['user_id'] %}
+{% if user_id %}
 <p>You are still logged in with another account.</p>
 <a href="/logout" class="button">Logout</a>
 {% else %}
-<form action="/createuser" method="POST">
-  <input type="text" name="username" placeholder="Username">
-  <input type="password" name="password" placeholder="Password">
-  <input type="text" name="email" placeholder="Email Address">
-  <input type="text" name="firstname" placeholder="First Name">
-  <input type="text" name="lastname" placeholder="Last Name">
-  <input type="submit" class="button">Create</input>
+<form action="/createuser" method="POST","GET">
+  <input type="text" name="username" placeholder="Username"></input>
+  <input type="password" name="password" placeholder="Password"></input>
+  <input type="text" name="email" placeholder="Email Address"></input>
+  <input type="text" name="firstname" placeholder="First Name"></input>
+  <input type="text" name="lastname" placeholder="Last Name"></input>
+  <div class="input-group">
+    <span class="input-group-addon">Please select</span>
+      <select name="gender" class="selectpicker form-control">
+        <option value="1">Male</option>
+        <option value="2">Female</option>
+      </select>
+  </div>
+  <input style="padding:10px" type="submit" class="button" value="Create user"></input>
 </form>
 {% endif %}
 {% endblock %}
