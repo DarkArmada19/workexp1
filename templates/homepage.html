@@ -37,10 +37,20 @@ header {
         <h1>Welcome to Fake Bank Inc.</h1>
     </header>
     {% block body %}
+    {% if name %}
+        <h1>Hello {{ name }}!</h1>
+    {% else %}
+        <h1 style="text-align:right">Unregistered user</h1>
+    {% endif %}
     {% if session['user_id'] %}
-        <h2>Good morning, {{ name }}</h2>
+    {% if userid %}
+        <h5>User ID: {{ userid }}</h5>
+    {% else %}
+        <h1>Unregistered user</h1>
+    {% endif %}
+    
         <p>What would you like to view today?</p>
-        <a href="/transactions" class="button">Transactions</a>
+        <a href="/trans_transfer" class="button">Transactions</a>
     {% else %}
     <form action="/homepage" method="POST">
         <input type="username" name="username" placeholder="Username">

@@ -26,5 +26,9 @@ header {
     </header>
     <h3>Success</h3> 
     <h4>Creation of user is completed.</h4>
-    <a href="/homepage" class='button'>Return home</a>          
+    <form action="/homepage" method="POST">
+        <input type="username" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <input type="submit" value="Log in">
+    </form>        
 </body>

@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     if not session.get('user_id'):
-        return render_template('loginuser.html')
+        return render_template('homepage.html')
     else:
         return render_template('homepage.html')
 
@@ -21,7 +21,7 @@ def homepage():
     cnx = mysql.connector.connect(user='root', database='fakebank')
     cursor = cnx.cursor()
 
-    query = ("SELECT ID, user_login, user_firstname FROM fb_userlogin WHERE user_login = \'" + username + "\'")
+    query = ("SELECT ID, user_login, user_pass, user_firstname FROM fb_userlogin WHERE user_pass = \'" + password + "\' AND user_login = \'" + username + "\'")
 
     cursor.execute(query)   
     
@@ -30,7 +30,9 @@ def homepage():
         print(session.get("user_id"))
         session["user_logname"]=row[1]
         print(session.get("user_logname"))
-        session["user_1name"]=row[2]
+        session["user_password"]=row[2]
+        print(session.get("user_password"))
+        session["user_1name"]=row[3]
         print(session.get("user_1name"))
  
     cursor.close()
@@ -46,7 +48,7 @@ def do_admin_login():
     cnx = mysql.connector.connect(user='root', database='fakebank')
     cursor = cnx.cursor()
 
-    query = ("SELECT ID, user_login, user_firstname FROM fb_userlogin WHERE user_login = \'" + username + "\'")
+    query = ("SELECT ID, user_login, user_pass, user_firstname FROM fb_userlogin WHERE user_pass = \'" + password + "\' AND user_login = \'" + username + "\'")
 
     cursor.execute(query)   
     
@@ -55,45 +57,34 @@ def do_admin_login():
         print(session.get("user_id"))
         session["user_logname"]=row[1]
         print(session.get("user_logname"))
-        session["user_1name"]=row[2]
+        session["user_password"]=row[2]
+        print(session.get("user_password"))
+        session["user_1name"]=row[3]
         print(session.get("user_1name"))
  
     cursor.close()
     cnx.close()
     return render_template('user.html', userid=session.get("user_id"), name=session.get("user_1name") )
 
-@app.route('/transactions', methods=['POST'])
-if session.get('user_id'):
-    return render_template('transactions.html')
-else:
-def transactions():
+@app.route('/trans_transfer', methods=['POST','GET'])
+def trans_transfer():
 # Read username and password from form parameters.
-    username = str(request.form['username'])
-    password = str(request.form['password'])
-    IDreal = str(request.form['IDreal'])
+    user_id = session.get('user_id')
 
     cnx = mysql.connector.connect(user='root', database='fakebank')
     cursor = cnx.cursor()
 
-    query = ("SELECT User_ID, Transac_amount, Transac_date, Transac_details, pos_or_neg FROM fb_transactions WHERE User_ID = \'" + IDreal + "\'")
+    query = ("SELECT Transac_ID, Transac_amount, Transac_date, Transac_desc, Transac_posneg FROM fb_transactions WHERE Transac_UID = \'" + str(user_id) + "\'")
 
-    cursor.execute(query)   
-    
-    for (row) in cursor:
-        session["user_id"]=row[0]
-        print(session.get("user_id"))
-        session["user_amt"]=row[1]
-        print(session.get("user_amt"))
-        session["user_date"]=row[2]
-        print(session.get("user_date"))
-        session["user_desc"]=row[3]
-        print(session.get("user_desc"))
-        session["user_posneg"]=row[4]
-        print(session.get("user_posneg"))
- 
+    cursor.execute(query) 
+
+    rows=cursor.fetchall()
     cursor.close()
     cnx.close()
-    return render_template('transactions.html', userida=session.get("user_id"), amt=session.get("user_amt"), date=session.get("user_date"), desc=session.get("user_desc"), posneg=session.get("user_posneg"))
+
+    print(rows)
+
+    return render_template('transactions.html', transactions=rows)
 
 @app.route("/register")
 def register():

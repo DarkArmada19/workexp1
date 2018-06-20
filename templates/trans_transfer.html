@@ -1,0 +1,25 @@
+<!doctype html>
+<title>User check</title>
+<style>
+</style>
+<body>
+{% block body %}
+<!--{% if session['user_id'] %}-->
+<!--- Display transaction history if the user_id equals the same as the ID from before-->
+
+<form action="/trans_transfer" method="POST">
+  <input type="text" name="username" placeholder="Username">
+  <input type="password" name="password" placeholder="Password">
+  <input type="text" name="IDreal" placeholder="0">
+  <input type="submit" class="button">Check</input>
+</form>
+<!--{% else %}
+<form action="/transactions" method="POST">
+  <input type="text" name="username" placeholder="Username">
+  <input type="password" name="password" placeholder="Password">
+  <input type="number" name="IDreal" placeholder="0">
+  <input type="submit" class="button">Check</input>
+</form>
+{% endif %}-->
+{% endblock %}
+</body>

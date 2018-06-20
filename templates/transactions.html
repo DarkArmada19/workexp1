@@ -1,11 +1,17 @@
 <!doctype html>
-<title>User Creation</title>
+<title>Transactions</title>
 <style>
+td {
+    padding: 20px 10px;
+}
+.tr {
+    background-color: darkgray;
+}
 .button {
-    background-color: #4CAF50;
+    background-color: #000000;
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 15px 30px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -13,24 +19,52 @@
     margin: 4px 2px;
     cursor: pointer;
 }
+
 </style>
 <body>
 {% block body %}
-{% if session['user_id'] %}
+<!--{% if session['user_id'] %}-->
 <!--- Display transaction history if the user_id equals the same as the ID from before-->
-<p>Current User ID: {{ userida }}</p>
-<p>{{amt}}</p>
-<p>{{date}}</p>
-<p>{{desc}}</p>
-<p>{{posneg}}</p>
-<a href="/logout" class="button">Logout</a>
+{% if session.get("user_id") != None %}
+    
+    <table>
+        <thead>
+            <tr class="tr">
+                <td>No.</td>
+                <td>Amount</td>
+                <td>Date</td>
+                <td>Desc</td>       
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in transactions %}
+            <tr>
+                <!-- Transac_ID, Transac_amount, Transac_date, Transac_desc, Transac_posneg  -->
+                <td>{{ t[0] }}</td>
+                <td>${{ t[1] }}</td>
+                <td>{{ t[2] }}</td>
+                <td>{{ t[3] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <a href="/homepage" class="button">Back</a>
+    <a href="/logout" class="button">Log out</a>
 {% else %}
+    <p>Sorry, you are not logged in.</p>
+    <h6>You must be logged in to view a page full of transactions.</h6>
+    <h6>This is because we respect your privacy as much as others,</h6>
+    <h6>so being able to see records would be a violation.</h6>
+{% endif %}
+<!--{% else %}
 <form action="/transactions" method="POST">
   <input type="text" name="username" placeholder="Username">
   <input type="password" name="password" placeholder="Password">
   <input type="number" name="IDreal" placeholder="0">
   <input type="submit" class="button">Check</input>
 </form>
-{% endif %}
+{% endif %}-->
 {% endblock %}
 </body>
