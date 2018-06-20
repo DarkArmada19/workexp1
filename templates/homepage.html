@@ -2,6 +2,9 @@
 <head>
 <title>Home Page</title>
 <style>
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
 header {
     text-align: center;
     color: red;
@@ -35,29 +38,22 @@ header {
 <body>
     <header>
         <h1>Welcome to Fake Bank Inc.</h1>
-    </header>
-    {% block body %}
-    {% if name %}
-        <h1>Hello {{ name }}!</h1>
+    </header> 
+    {% if session.get("UID")  %}
+        <h2 style="margin-left:15%">Hello {{ session.get("user_firstname") }}!</h2>
+        <h5 style="margin-left:15%">User ID: {{ session.get("UID") }}</h5>
+        {% if session.get("user_gender") %}
+            <p style="margin-left:15%">What would you like to view today, Mr {{ session.get("user_lastname") }}?</p>
+        {% else %}
+            <p style="margin-left:15%">What would you like to view today, Ms {{ session.get("user_lastname") }}?</p>
+        {% endif %}
+        <a style="margin-left:15%" href="/trans_transfer" class="button">Transactions</a>
     {% else %}
-        <h1 style="text-align:right">Unregistered user</h1>
-    {% endif %}
-    {% if session['user_id'] %}
-    {% if userid %}
-        <h5>User ID: {{ userid }}</h5>
-    {% else %}
-        <h1>Unregistered user</h1>
-    {% endif %}
-    
-        <p>What would you like to view today?</p>
-        <a href="/trans_transfer" class="button">Transactions</a>
-    {% else %}
-    <form action="/homepage" method="POST">
-        <input type="username" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password">
-        <input type="submit" value="Log in">
-    </form>
-    <a href="/register" class="button">Create a User Account</a>
-    {% endif %}
-    {% endblock %}           
+        <form style="margin-left:15%" action="/homepage" method="POST">
+            <input type="username" name="username" placeholder="Username">
+            <input type="password" name="password" placeholder="Password">
+            <input type="submit" value="Log in">
+        </form>
+        <h4 style="margin-left:15%">Alternatively, </h4><a style="margin-left:15%" href="/register" class="button">Create a User Account</a>
+    {% endif %}          
 </body>
