@@ -27,8 +27,8 @@ def homepage():
     cursor.execute(query)   
     
     for (row) in cursor:
-        session["UID"]=row[0]
-        print(session.get("UID"))
+        session["user_id"]=row[0]
+        print(session.get("user_id"))
         session["user_login"]=row[1]
         print(session.get("user_login"))
         session["user_pass"]=row[2]
@@ -43,38 +43,11 @@ def homepage():
     cnx.close()
     return render_template('homepage.html')
 
-@app.route('/login', methods=['POST'])
-def do_admin_login():
-# Read username and password from form parameters.
-    username = str(request.form['username'])
-    password = str(request.form['password'])
-
-    cnx = mysql.connector.connect(user='root', database='fakebank')
-    cursor = cnx.cursor()
-
-    query = ("SELECT ID, user_login, user_pass, user_firstname FROM fb_userlogin WHERE user_pass = \'" + password + "\' AND user_login = \'" + username + "\'")
-
-    cursor.execute(query)   
-    
-    for (row) in cursor:
-        session["user_id"]=row[0]
-        print(session.get("user_id"))
-        session["user_logname"]=row[1]
-        print(session.get("user_logname"))
-        session["user_password"]=row[2]
-        print(session.get("user_password"))
-        session["user_1name"]=row[3]
-        print(session.get("user_1name"))
- 
-    cursor.close()
-    cnx.close()
-    return render_template('user.html', userid=session.get("user_id"), name=session.get("user_1name") )
-
 @app.route('/trans_transfer', methods=['POST','GET'])
 def trans_transfer():
 # Read username and password from form parameters.
     user_id = session.get('user_id')
-
+    print(user_id)
     cnx = mysql.connector.connect(user='root', database='fakebank')
     cursor = cnx.cursor()
 
@@ -122,6 +95,39 @@ def createuser():
     cnx.close()
     print (gender)
     return render_template('homepage.html')
+
+@app.route("/money")
+def money():
+    return render_template("money.html")
+
+@app.route("/submitm")
+def submitm():
+    Transac_UID = session.get('user_id')
+    Transac_amount = str(request.form['Transac_amount'])
+    print(Transac_amount)
+    Transac_desc = str(request.form['Transac_desc'])
+    print(Transac_desc)
+    Transac_posneg = request.form.get('Transac_posneg')
+    print(Transac_posneg)
+    cnx = mysql.connector.connect(user='root', database='fakebank')
+    cursor = cnx.cursor()
+    sql = "INSERT INTO fb_transactions (Transac_UID, Transac_amount, Transac_desc, Transac_posneg) VALUES (%s, %s, %s, %s)"
+    val = (Transac_UID, Transac_amount, Transac_desc, Transac_posneg)
+    cursor.execute(sql, val)
+    cnx.commit()
+
+    for (row) in cursor:
+        session["Transac_UID"]=row[0]
+        session["Transac_amount"]=row[1]
+        session["Transac_date"]=row[2]
+        session["Transac_desc"]=row[3]
+        session["Transac_posneg"]=row[4]
+
+    cursor.close()
+    cnx.close()
+    print (Transac_posneg)
+    return redner_template("trnasactions.html")
+    
 
 @app.route("/success")
 def success():

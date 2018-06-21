@@ -1,0 +1,40 @@
+<!doctype html>
+<head>
+<title>Home Page</title>
+<style>
+header {
+    text-align: center;
+    color: red;
+}
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Fake Bank Inc.</h1>
+    </header>
+    <form style="margin-left:15%" action="/submitm" method="POST, GET">
+        <input type="text" name="Transac_amount" placeholder="0"></input>
+        <input type="text" name="Transac_desc" placeholder="Description"></input>
+        <div class="input-group">
+            <span class="input-group-addon">Please select</span>
+            <select name="Transac_posneg" class="selectpicker form-control">
+                <option value="Positive">Positive</option>
+                <option value="Negative">Negative</option>
+            </select>
+        </div>
+        <input type="submit" class="button" value="Submit"></input>
+    </form>
+    <a style="margin-left:15%" href="/homepage" class='button'>Return home</a>          
+</body>

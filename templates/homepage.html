@@ -39,18 +39,20 @@ header {
     <header>
         <h1>Welcome to Fake Bank Inc.</h1>
     </header> 
-    {% if session.get("UID")  %}
+    {% if session.get("user_id")  %}
         <h2 style="margin-left:15%">Hello {{ session.get("user_firstname") }}!</h2>
-        <h5 style="margin-left:15%">User ID: {{ session.get("UID") }}</h5>
-        {% if session.get("user_gender") %}
+        <h5 style="margin-left:15%">User ID: {{ session.get("user_id") }}</h5>
+        {% if session.get("user_gender") == 1 %}
             <p style="margin-left:15%">What would you like to view today, Mr {{ session.get("user_lastname") }}?</p>
-        {% else %}
+        {% elif session.get("user_gender") %}
             <p style="margin-left:15%">What would you like to view today, Ms {{ session.get("user_lastname") }}?</p>
         {% endif %}
         <a style="margin-left:15%" href="/trans_transfer" class="button">Transactions</a>
+        <a style="margin-left:15%" href="/money" class="button">Transfers</a>
+        <a style="margin-left:15%" href="/logout" class="button">Logout from Uplay</a>
     {% else %}
         <form style="margin-left:15%" action="/homepage" method="POST">
-            <input type="username" name="username" placeholder="Username">
+            <input type="text" name="username" placeholder="Username">
             <input type="password" name="password" placeholder="Password">
             <input type="submit" value="Log in">
         </form>
